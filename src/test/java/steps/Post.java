@@ -1,5 +1,8 @@
 package steps;
 
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import cucumber.api.java.pt.Dado;
 import cucumber.api.java.pt.Entao;
 import cucumber.api.java.pt.Quando;
@@ -15,18 +18,19 @@ public class Post extends Base {
         this.base = base;
     }
 
-    @Dado("^que acesso a Wikipedia em Portugues$")
+    @Given("^que acesso a Wikipedia em Portugues$")
     public void queAcessoAWikipediaEmPortugues() {
         base.driver.get(base.url);
     }
 
-    @Quando("^pesquiso por \"([^\"]*)\"$")
+    @When("^pesquiso por \"([^\"]*)\"$")
     public void pesquisoPor(String produto)  {
-        base.driver.findElement(By.cssSelector("input.wvui-input__input")).sendKeys(produto + Keys.ENTER);
+        base.driver.findElement(By.id("searchInput")).sendKeys(produto + Keys.ENTER);
     }
 
-    @Entao("^Exibe a expressao \"([^\"]*)\" no titulo da guia$")
-    public void exibeAExpressaoNoTituloDaGuia(String produto) {
+    @Then("^Exibe a expressao \"([^\"]*)\" no titulo da guia$")
+    public void exibeAExpressaoNoTituloDaGuia(String produto) throws InterruptedException {
+        Thread.sleep(10000);
         assertTrue(base.driver.getTitle().contains(produto));
     }
 }
